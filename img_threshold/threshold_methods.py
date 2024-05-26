@@ -79,3 +79,49 @@ def phansalkar(image, radius=10, k=0.25, r=0.5, p=2.0, q=10.0):
     else:
         print('test4')
         raise ValueError("The input vector must be a grayscale numpy array or a tensor.")
+    
+    
+    
+def otsu(image):
+    """
+    Using a "Faster Approach" the threshold with the maximum between class variance also has the minimum within class variance.
+    
+    Described in N. Otsu, "A Threshold Selection Method from Gray-Level Histograms," 
+    in IEEE Transactions on Systems, Man, and Cybernetics, 
+    vol. 9, no. 1, pp. 62-66, Jan. 1979, 
+    doi: 10.1109/TSMC.1979.4310076.
+    [https://ieeexplore.ieee.org/document/4310076]."""
+
+    
+    # Check if the vector is a grayscale numpy array or tensor
+    if isinstance(image, np.ndarray):
+        validate_image(image, must_be_2d=True, must_be_np=True)
+        
+        # make sure it is uint8
+        if image.dtype != np.uint8:
+            image = (image * 255).astype(np.uint8)
+        
+        image_flat = image.flatten() # Flatten the image
+        max_BCV = 0
+        threshold_value = None
+        for i, threshold in enumerate(range(1, 256)):
+            foreground = image_flat[image_flat > threshold]
+            background = image_flat[image_flat <= threshold]
+            if len(foreground) == 0 or len(background) == 0:
+                continue
+            W_b = len(foreground) / len(image.flatten())
+            W_f = len(background) / len(image.flatten())
+            between_class_variances = W_b * W_f * (np.mean(foreground) - np.mean(background))**2
+            if between_class_variances > max_BCV:
+                max_BCV = between_class_variances
+                threshold_value = threshold
+                
+        otsu_img = np.zeros_like(image)
+        otsu_img = image > threshold_value
+        return otsu_img
+        
+    elif isinstance(image, torch.Tensor):
+        validate_image(image, must_be_2d=True, must_be_tensor=True)
+    else:
+        print('test4')
+        raise ValueError("The input vector must be a grayscale numpy array or a tensor.")
