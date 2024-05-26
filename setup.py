@@ -1,0 +1,35 @@
+from setuptools import setup, find_packages
+
+setup(
+    name='pythresh',
+    version='0.0.1',
+    author='Hallur Reynisson',
+    author_email='h.reynisson@unsw.edu.au',
+    description='A Python package for image thresholding techniques with NumPy and PyTorch gradient support',
+    long_description=open('README.md').read(),
+    long_description_content_type='text/markdown',
+    url='https://github.com/hallurr/pythresh',
+    packages=find_packages(),
+    install_requires=[
+        'numpy',
+        'torch>=1.7',
+        'matplotlib', 
+    ],
+    classifiers=[
+        'Development Status :: 3 - Alpha',  
+        'Intended Audience :: Developers',
+        'Intended Audience :: Science/Research',
+        'License :: OSI Approved :: MIT License', 
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
+        'Programming Language :: Python :: 3.10',
+        'Topic :: Scientific/Engineering :: Image Recognition',
+        'Topic :: Scientific/Engineering :: Image Processing',
+        'Topic :: Scientific/Engineering :: Image Analysis',
+        'Topic :: Scientific/Engineering :: Deep Learning',
+        'Topic :: Scientific/Engineering :: AI',
+    ],
+    python_requires='>=3.7',
+)
